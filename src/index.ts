@@ -1,4 +1,4 @@
-import * as compose from '../compose';
+import * as compose from './compose';
 import sleep from './utils/sleep';
 import Source from './utils/source';
 import { EventEmitter } from 'events';

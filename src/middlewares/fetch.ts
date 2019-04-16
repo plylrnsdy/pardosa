@@ -110,4 +110,3 @@ function fetch(): Middleware<{}, fetch.IFetchContext> {
 
 
 export = fetch;
-fetch.Response = Response;
