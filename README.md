@@ -1,5 +1,7 @@
 # Pardosa
 
+[![npm](https://img.shields.io/npm/v/pardosa.svg)](https://npmjs.org/package/pardosa)
+
 A spider framework has a Koa like APIs, written by Typescript.
 
 
@@ -24,8 +26,8 @@ import * as fetch from "pardosa/middlewares/fetch";
 
 const spider = new Pardosa({ exitOnIdle: true })
     .use(fetch())
-    .use(async function ({ url, response, state }, next) {
-        console.log(response.xpath('//article').html())
+    .use(async function (ctx, next) {
+        console.log(ctx.response.xpath('//article').html());
     });
 
 spider.source.enqueue('https://github.com/plylrnsdy/pardosa');

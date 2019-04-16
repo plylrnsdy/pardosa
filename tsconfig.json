@@ -1,14 +1,17 @@
 {
     "compilerOptions": {
-        "rootDir": ".",
+        "rootDir": "./src",
+        "outDir": ".",
         "module": "commonjs",
         "strict": true,
         "target": "es6",
-        "removeComments": true
+        "removeComments": true,
+        "declaration": true
     },
     "exclude": [
         ".vscode",
         "node_modules",
-        "out"
+        "out",
+        "*.d.ts"
     ]
 }

@@ -12,7 +12,7 @@
   "scripts": {
     "compile": "npm run clean && tsc -p ./",
     "watch": "npm run clean && tsc -watch -p ./",
-    "clean": "shx rm -rf ./*.js \"./@(middlewares|lib)/*.js\""
+    "clean": "shx rm -rf \"{./,./examples./middlewares,./utils}/*.@(js|d.ts)\""
   },
   "dependencies": {
     "node-fetch": "^2.2.0",

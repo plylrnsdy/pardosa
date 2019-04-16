@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import mkdirSync from '../lib/mkdir-sync';
+import mkdirSync from '../utils/mkdir-sync';
 import { Middleware } from '..';
 
 

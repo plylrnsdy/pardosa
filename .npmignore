@@ -1,4 +1,6 @@
 .vscode
+examples
 output
+src
 .editorconfig
 tsconfig.json
