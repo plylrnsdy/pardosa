@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "rootDir": ".",
+        "module": "commonjs",
+        "strict": true,
+        "target": "es6",
+        "removeComments": true
+    },
+    "exclude": [
+        ".vscode",
+        "node_modules",
+        "out"
+    ]
+}
