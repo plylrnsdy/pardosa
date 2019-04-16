@@ -109,11 +109,15 @@ class Router<S = Record<string, any>, C = Router.IContext> {
         if (this._prefix) {
             middlewares.push(this._prefix as any);
         }
-        middlewares.push(...this._middlewares as any[]);
+        if (this._middlewares.length) {
+            middlewares.push(...this._middlewares as any[]);
+        }
 
-        middlewares.push(
-            compose(this._routes.map(route => compose(route as any)))
-        );
+        if (this._routes.length) {
+            middlewares.push(
+                compose(this._routes.map(route => compose(route as any)))
+            );
+        }
 
         return compose(middlewares as any);
     }
