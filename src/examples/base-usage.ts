@@ -1,8 +1,8 @@
 import * as Pardosa from "..";
-import * as fetch from "../middlewares/fetch";
-import * as storage from '../middlewares/storage';
 import * as guard from '../middlewares/guard';
-// @ts-ignore
+import * as fetch from "../middlewares/fetch";
+import * as inspect from "../middlewares/inspect";
+import * as storage from '../middlewares/storage';
 import TurndownService = require('turndown');
 // @ts-ignore
 import turndownPluginGfm = require('turndown-plugin-gfm');
@@ -24,6 +24,7 @@ const spider = new Pardosa({ exitOnIdle: true })
 
         await next();
     })
+    .use(inspect('state'))
     .use(storage.file());
 
 spider.source.enqueue('https://github.com/plylrnsdy/pardosa');

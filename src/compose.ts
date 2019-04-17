@@ -2,8 +2,8 @@ import { Middleware } from '.';
 
 
 declare module compose {
-    export type Middleware<T> = (context: T, next: () => Promise<any>) => any;
-    export type ComposedMiddleware<T> = (context: T, next?: () => Promise<any>) => Promise<void>;
+    export type Middleware<T> = (context: T, next: () => Promise<void>) => Promise<void>;
+    export type ComposedMiddleware<T> = (context: T, next?: () => Promise<void>) => Promise<void>;
 }
 
 
