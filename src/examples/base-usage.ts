@@ -19,7 +19,7 @@ const spider = new Pardosa({ exitOnIdle: true })
         Object.assign(state, {
             file: `output/${url.replace(/https?:\/\//, '')}/README.md`,
             content: turndownService.turndown(response.xpath('//article').html()),
-        })
+        });
 
         await next();
     })

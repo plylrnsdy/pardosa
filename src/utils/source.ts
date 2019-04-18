@@ -1,9 +1,13 @@
 import Queue from "./queue";
-import { IRequest } from '..';
+import { IRequest, Middleware } from '..';
 import { scheduleJob, Job, RecurrenceRule, RecurrenceSpecDateRange, RecurrenceSpecObjLit } from 'node-schedule';
 
 
 type ScheduleRule = RecurrenceRule | RecurrenceSpecDateRange | RecurrenceSpecObjLit | Date | string;
+interface IRequestContext {
+    req: IRequest;
+    url: string;
+}
 
 export default class Source {
 
@@ -13,8 +17,9 @@ export default class Source {
 
     private _jobs: Job[] = [];
 
-    constructor() {
 
+    isEmpty() {
+        return this.requests.isEmpty();
     }
 
     /**
@@ -44,13 +49,6 @@ export default class Source {
         return this;
     }
 
-    cancelSchedule(index: number) {
-        this.schedules.splice(index, 1);
-        this._jobs.splice(index, 1)[0].cancel();
-
-        return this;
-    }
-
     toJSON() {
         const { requests, requesting, schedules } = this;
         return {
@@ -58,5 +56,15 @@ export default class Source {
             requesting,
             schedules,
         };
+    }
+
+    request(): Middleware<{}, IRequestContext> {
+        return async (ctx, next) => {
+            const req = this.dequeue() as IRequest;
+            ctx.req = req;
+            ctx.url = typeof req === 'string' ? req : req.url;
+
+            await next();
+        }
     }
 }

@@ -18,11 +18,7 @@ declare module Pardosa {
         crawler: Pardosa<any, any>;
         source: Source;
     }
-    export type ParameterizedContext<StateT, CustomT> = BaseContext & {
-        req: IRequest;
-        url: string;
-        state: StateT;
-    } & CustomT;
+    export type ParameterizedContext<StateT, CustomT> = BaseContext & { state: StateT } & CustomT;
 
     export type IRequest = string | {
         url: string;
@@ -64,7 +60,10 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext> extends EventEmi
         source: this.source,
     };
 
-    private _middlewares: Pardosa.Middleware<S, C>[] = [catchError()];
+    private _middlewares: Pardosa.Middleware<S, C>[] = [
+        catchError(),
+        this.source.request() as any,
+    ];
 
 
     constructor(options: Pardosa.IOptions = {}) {
@@ -100,10 +99,9 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext> extends EventEmi
         const composed = compose(this._middlewares);
         const exitOnIdle = this._options;
 
-        let req, ctx;
+        let ctx;
         while (this.active) {
-            req = this.source.dequeue();
-            if (req == null) {
+            if (this.source.isEmpty()) {
                 if (exitOnIdle) {
                     this.stop();
                     continue;
@@ -112,12 +110,9 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext> extends EventEmi
                 continue;
             }
 
-            ctx = Object.create(this.context)
-            await composed(Object.assign(ctx, {
-                req,
-                url: typeof req === 'string' ? req : req.url,
-                state: {},
-            }));
+            ctx = Object.create(this.context);
+            ctx.state = {};
+            await composed(ctx);
         }
         this.running = false;
     }
