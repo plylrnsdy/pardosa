@@ -83,8 +83,9 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext> extends EventEmi
      * Use the middleware to configurate fetching process.
      */
     use<T, U>(middleware: Pardosa.Middleware<S & T, C & U>): Pardosa<S & T, C & U> {
-        if (typeof middleware !== 'function') throw new TypeError('Middleware must be a function!');
-
+        if (typeof middleware !== 'function') {
+            throw new TypeError('Middleware must be a function!');
+        }
         this._middlewares.push(middleware as any);
         return this;
     }

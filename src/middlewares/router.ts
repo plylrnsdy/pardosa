@@ -85,7 +85,9 @@ class Router<S = Record<string, any>, C = Router.IContext> {
      * before execute the middlewares used in Router#`route()`.
      */
     use<T, U>(middleware: Middleware<S & T, C & U>): Router<S & T, C & U> {
-
+        if (typeof middleware !== 'function') {
+            throw new TypeError('Middleware must be a function!');
+        }
         this._middlewares.push(middleware as any);
         return this;
     }
@@ -95,7 +97,9 @@ class Router<S = Record<string, any>, C = Router.IContext> {
      * else skip this route.
      */
     route<T, U>(path: string, ...middlewares: Array<Middleware<S & T, C & U>>): Router<S & T, C & U> {
-
+        if (middlewares.some(m => typeof m !== 'function')) {
+            throw new TypeError('Middleware must be a function!');
+        }
         this._routes.push([this._route(path, false), ...middlewares as any]);
         return this;
     }
