@@ -2,20 +2,25 @@
 
 [![npm](https://img.shields.io/npm/v/pardosa.svg)](https://npmjs.org/package/pardosa)
 
-A spider framework has a Koa like APIs, written by Typescript.
+A spider framework has a [Koa][koa] like APIs, written by Typescript.
 
 
 ## Feature
 
-- Koa like APIs, can configurate page processing with middlewares.
-- Support schedule request.
+- [Koa][koa] like APIs, can configurate page processing with middlewares.
+- Support schedule request, based on [node-schedule][node-schedule].
 - Build-in middlewares:
   - `guard`: Print the request and it's processing time.
-  - `fetch`: Use [node-fetch](https://github.com/bitinn/node-fetch) request page.
-  - `Router`: Koa Router like APIs.
+  - `fetch`: Use [node-fetch][node-fetch] request page.
+    - `ctx.res`: [node-fetch][node-fetch]'s Response.
+    - `ctx.response`: Pardosa's Response, exposes 3 interfaces of [xSelector][xselector]: `css()`, `xpath()`, `re()`.
+  - `Router`: [Koa Router][koa-router] like APIs.
   - `schema`: Use XPath extract data to `ctx.state`.
   - `storage`
-    - `file()`: If `ctx.type` is "file", save `ctx.content` into `ctx.file`.
+    - `file()`: Use after `fetch` and before `router`.
+      - If `ctx.req.file` exist, save `ctx.response.body` to path `ctx.req.file`.
+      - If `ctx.state.file` exist, save `ctx.state.content` into `ctx.state.file`.
+  - `inspect`: Print field of `ctx` by JSON Path, like `state.file`.
 
 
 ## Useage
@@ -41,7 +46,7 @@ More [examples](https://github.com/plylrnsdy/pardosa/tree/master/src/examples).
 
     npm i -P pardosa
 
-If you make a spider using Pardosa with Typescript, install with these declarations dependencies:
+If you make a spider using Pardosa with **Typescript**, install with these declarations dependencies:
 
     npm i -D @types/node-fetch @types/node-schedule
 
@@ -60,5 +65,11 @@ Author：plylrnsdy
 Github：[pardosa][repository]
 
 
-[issues]:https://github.com/plylrnsdy/pardosa/issues
 [repository]:https://github.com/plylrnsdy/pardosa
+[issues]:https://github.com/plylrnsdy/pardosa/issues
+
+[koa]:https://github.com/koajs/koa
+[koa-router]:https://github.com/alexmingoia/koa-router
+[node-fetch]:https://github.com/bitinn/node-fetch
+[node-schedule]:https://github.com/node-schedule/node-schedule
+[xselector]:https://github.com/plylrnsdy/xselector
