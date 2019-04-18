@@ -24,18 +24,13 @@ function compose<StateT, CustomT>(middlewares: Middleware<StateT, CustomT>[]) {
      * @param i executing middleware index in queue
      */
     return async function composed(ctx: any, next?: () => Promise<void>, i: number = 0): Promise<void> {
-        try {
-            const _next = i + 1 < middlewares.length
-                ? composed.bind(null, ctx, void 0, i + 1)
-                : noop;
+        const _next = i + 1 < middlewares.length
+            ? composed.bind(null, ctx, void 0, i + 1)
+            : noop;
 
-            await middlewares[i](ctx, _next);
+        await middlewares[i](ctx, _next);
 
-            next && await next();
-
-        } catch (error) {
-            ctx.crawler.emit('error', error);
-        }
+        next && await next();
     }
 }
 

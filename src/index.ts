@@ -64,7 +64,7 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext> extends EventEmi
         source: this.source,
     };
 
-    private _middlewares: Pardosa.Middleware<S, C>[] = [];
+    private _middlewares: Pardosa.Middleware<S, C>[] = [catchError()];
 
 
     constructor(options: Pardosa.IOptions = {}) {
@@ -134,3 +134,13 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext> extends EventEmi
 }
 
 export = Pardosa;
+
+function catchError<S, C>(): Pardosa.Middleware<S, C> {
+    return async function catchError(ctx, next) {
+        try {
+            await next();
+        } catch (error) {
+            ctx.crawler.emit('error', error);
+        }
+    }
+}
