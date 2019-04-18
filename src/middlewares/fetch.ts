@@ -1,5 +1,5 @@
 import * as xselector from 'xselector';
-import nodeFetch from 'node-fetch';
+import nodeFetch, { Request } from 'node-fetch';
 import { Middleware } from '..';
 import { Response as FetchResponse } from 'node-fetch';
 
@@ -100,7 +100,10 @@ function fetch(): Middleware<{}, fetch.IFetchContext> {
 
     return async function (ctx, next) {
 
-        ctx.res = await nodeFetch(ctx.req as any);
+        ctx.res = typeof ctx.req === 'string' || ctx.req instanceof Request
+            ? await nodeFetch(ctx.req)
+            : await nodeFetch(ctx.req.url, ctx.req as any)
+
         ctx.response = new Response(ctx.res);
 
         await (<any>ctx.response).$init();
