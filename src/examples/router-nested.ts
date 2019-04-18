@@ -28,18 +28,17 @@ const router = new Router()
             async function (ctx, next) {
                 const { state, response, router: { params } } = ctx as typeof ctx & IFetchContext & IFileContext;
 
-                state.type = 'file';
                 state.file = `output/nodejs/${params.module}.html`;
                 state.content = `
-            <!DOCTYPE html>
-            <html lang="zh-cn">
-            <head>
-                <title>${response.css('title').text()}</title>
-            </head>
-            <body>
-                ${response.css('#apicontent').html()}
-            </body>
-            </html>`;
+                    <!DOCTYPE html>
+                    <html lang="zh-cn">
+                    <head>
+                        <title>${response.css('title').text()}</title>
+                    </head>
+                    <body>
+                        ${response.css('#apicontent').html()}
+                    </body>
+                    </html>`;
             })
         .routes());
 

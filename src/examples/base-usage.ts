@@ -17,7 +17,6 @@ const spider = new Pardosa({ exitOnIdle: true })
     .use(async function ({ url, response, state }, next) {
 
         Object.assign(state, {
-            type: 'file',
             file: `output/${url.replace(/https?:\/\//, '')}/README.md`,
             content: turndownService.turndown(response.xpath('//article').html()),
         })
