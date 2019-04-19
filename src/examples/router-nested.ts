@@ -5,7 +5,7 @@ import * as Router from "../middlewares/router";
 import * as storage from "../middlewares/storage";
 import { IFetchContext } from "../middlewares/fetch";
 import { IFileContext } from "../middlewares/storage";
-import { IRequestContext } from "../utils/source";
+import { ISourceContext } from "../utils/source";
 
 
 const url = 'http://nodejs.cn/api';
@@ -16,7 +16,7 @@ const router = new Router()
     .use(new Router()
         .prefix('/api')
 
-        .route<{}, IRequestContext & IFetchContext>(
+        .route<{}, ISourceContext & IFetchContext>(
             '/', async function (ctx, next) {
                 const { source, url, response } = ctx;
 

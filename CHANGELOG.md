@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.8
++ Response#`extension()`;
+* new interface of request object.
+
 ## 0.1.6
 * Fix can not interrupt middlewares after throwed error;
 + Add middleware `clean-stack`.

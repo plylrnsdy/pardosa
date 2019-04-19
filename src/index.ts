@@ -1,6 +1,6 @@
 import * as compose from './compose';
 import sleep from './utils/sleep';
-import Source from './utils/source';
+import Source, { ISourceContext } from './utils/source';
 import { EventEmitter } from 'events';
 
 
@@ -19,11 +19,6 @@ declare module Pardosa {
         source: Source;
     }
     export type ParameterizedContext<StateT, CustomT> = BaseContext & { state: StateT } & CustomT;
-
-    export type IRequest = string | {
-        url: string;
-        [key: string]: any;
-    }
 }
 
 
@@ -33,7 +28,7 @@ const DEFAULT_OPTIONS: Pardosa.IOptions = {
     exitOnError: false,
 }
 
-class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext> extends EventEmitter {
+class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext> extends EventEmitter {
 
     private _active = true;
     /**

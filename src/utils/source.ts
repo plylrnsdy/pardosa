@@ -1,19 +1,28 @@
 import Queue from "./queue";
-import { IRequest, Middleware } from '..';
+import { Middleware } from '..';
+import { RequestInit } from 'node-fetch';
 import { scheduleJob, Job, RecurrenceRule, RecurrenceSpecDateRange, RecurrenceSpecObjLit } from 'node-schedule';
 
 
 export type ScheduleRule = RecurrenceRule | RecurrenceSpecDateRange | RecurrenceSpecObjLit | Date | string;
-export interface IRequestContext {
-    req: IRequest;
+export interface ISourceContext {
+    req: BaseRequest & RequestInit;
     url: string;
+}
+export type Request = string | (BaseRequest & RequestInit);
+export interface BaseRequest {
+    url: string;
+    /**
+     * Pass data to next request context, will be merged to `ctx.state`.
+     */
+    state?: Record<string, any>;
 }
 
 export default class Source {
 
-    requests = new Queue<IRequest>();
-    requesting: IRequest | undefined;
-    schedules: Array<{ rule: ScheduleRule, request: IRequest }> = [];
+    requests = new Queue<Request>();
+    requesting: Request | undefined;
+    schedules: Array<{ rule: ScheduleRule, request: Request }> = [];
 
     private _jobs: Job[] = [];
 
@@ -25,7 +34,7 @@ export default class Source {
     /**
      * Add request(s) into queue.
      */
-    enqueue(...requests: IRequest[]) {
+    enqueue(...requests: Request[]) {
         this.requests.enqueue(...requests);
         return this;
     }
@@ -42,7 +51,7 @@ export default class Source {
      * Time-based request scheduling.
      * @see [node-schedule](https://github.com/node-schedule/node-schedule)
      */
-    schedule(rule: ScheduleRule, request: IRequest) {
+    schedule(rule: ScheduleRule, request: Request) {
         this.schedules.push({ rule, request });
         this._jobs.push(scheduleJob(rule, () => this.enqueue(request)));
 
@@ -58,11 +67,16 @@ export default class Source {
         };
     }
 
-    request(): Middleware<{}, IRequestContext> {
+    request(): Middleware<{}, ISourceContext> {
         return async (ctx, next) => {
-            const req = this.dequeue() as IRequest;
-            ctx.req = req;
-            ctx.url = typeof req === 'string' ? req : req.url;
+            const req = this.dequeue()!;
+
+            ctx.req = typeof req === 'string' ? { url: req } : req;
+            ctx.url = ctx.req.url;
+
+            if (ctx.req.state != null) {
+                Object.assign(ctx.state, ctx.req.state);
+            }
 
             await next();
         }

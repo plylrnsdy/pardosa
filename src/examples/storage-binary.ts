@@ -11,6 +11,8 @@ const spider = new Pardosa({ exitOnIdle: true })
 
 spider.source.enqueue({
     url: 'https://raw.githubusercontent.com/plylrnsdy/vscode-run-as/master/images/run-in-inner-terminal.gif',
-    file: 'output/github.com/plylrnsdy/vscode-run-as/run-in-inner-terminal.gif'
+    state: {
+        file: 'output/github.com/plylrnsdy/vscode-run-as/run-in-inner-terminal.gif',
+    },
 });
 spider.start();
