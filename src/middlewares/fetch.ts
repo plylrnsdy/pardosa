@@ -1,4 +1,5 @@
 import * as xselector from 'xselector';
+import * as mime from 'mime';
 import nodeFetch, { Request } from 'node-fetch';
 import { Middleware } from '..';
 import { Response as FetchResponse } from 'node-fetch';
@@ -26,6 +27,7 @@ class Response {
      * else it is undefined, need to parse `ctx.res` by yourself.
      */
     body: string | Record<string, any> | undefined
+
 
     constructor(private res: FetchResponse) { }
 
@@ -57,6 +59,13 @@ class Response {
      */
     is(type: string) {
         return this.type.includes(type.toLowerCase());
+    }
+
+    /**
+     * Return extension for mime type of the response `Content-Type`.
+     */
+    get extension() {
+        return mime.getExtension(this.type);
     }
 
     /**

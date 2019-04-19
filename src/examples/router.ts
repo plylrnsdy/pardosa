@@ -24,7 +24,7 @@ const router = new Router()
         async function (ctx, next) {
             const { state, response, router: { params } } = ctx as typeof ctx & IFetchContext & IFileContext;
 
-            state.file = `output/nodejs/${params.module}.html`;
+            state.file = `output/nodejs/${params.module}.${response.extension}`;
             state.content = `
                 <!DOCTYPE html>
                 <html lang="zh-cn">
