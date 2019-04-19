@@ -8,7 +8,7 @@ declare module schema { }
  *
  * @param schema an nested object which key is string and value is xpath string or another schema.
  */
-function schema(schema: any): Middleware<Record<string, any>, {}> {
+function schema<S>(schema: S): Middleware<S, {}> {
 
     return function (ctx, next) {
         const { response, state } = ctx;
