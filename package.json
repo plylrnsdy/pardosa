@@ -12,7 +12,8 @@
   "scripts": {
     "compile": "npm run clean && tsc -p ./",
     "watch": "npm run clean && tsc -watch -p ./",
-    "clean": "shx rm -rf \".{/,/examples,/middlewares,/utils}/*.@(js|d.ts)\""
+    "clean": "shx rm -rf \".{/,/examples,/middlewares,/utils}/*.@(js|d.ts)\"",
+    "prepublish": "npm run compile"
   },
   "dependencies": {
     "lodash.get": "^4.4.2",
