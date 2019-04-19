@@ -59,6 +59,11 @@ class Response {
         return this.type.includes(type.toLowerCase());
     }
 
+    /**
+     * Use CSS Selector search in Response#`body`.
+     *
+     * If Response#`body` type is not html, it will throw a TypeError.
+     */
     css(selector: string) {
         if (!this.is('html')) throw new TypeError('Response#css() need Response#body to be html.');
         return xselector.load(this.body as string).css(selector);
@@ -80,8 +85,8 @@ class Response {
      * If Response#`body` type is not string, it will throw a TypeError.
      *
      * @param re
-     * @param searchText If true and Response#`body` type is html, only search in TextNode of html;
-     *                   If false or Response#`body` type is not html, search in all text.
+     * @param searchText If true AND Response#`body` type is html, only search in TextNode of html;
+     *                   If false OR Response#`body` type is not html, search in all text.
      *                   Default is false.
      */
     re(re: string | RegExp, searchText: boolean = false) {
