@@ -4,6 +4,7 @@ import * as fetch from "../middlewares/fetch";
 import * as Router from "../middlewares/router";
 import * as storage from "../middlewares/storage";
 import { IFetchContext } from "../middlewares/fetch";
+import { IRequestContext } from "../utils/source";
 import { IFileContext } from "../middlewares/storage";
 
 
@@ -11,18 +12,18 @@ const url = 'http://nodejs.cn/api';
 
 const router = new Router()
     .prefix(url)
-    .route('/',
-        async function (ctx, next) {
-            const { source, url, response } = ctx as typeof ctx & IFetchContext;
+    .route<{}, IRequestContext & IFetchContext>(
+        '/', async function (ctx, next) {
+            const { source, url, response } = ctx;
 
             const links = response.xpath('//div[@id="column2"]/ul[1]//a').attrs('href');
             console.log(links);
 
             source.enqueue(...links.map(link => `${url}/${link}`));
         })
-    .route('/:module([^.]+).html',
-        async function (ctx, next) {
-            const { state, response, router: { params } } = ctx as typeof ctx & IFetchContext & IFileContext;
+    .route<{}, IFileContext>(
+        '/:module([^.]+).html', async function (ctx, next) {
+            const { state, response, router: { params } } = ctx;
 
             state.file = `output/nodejs/${params.module}.${response.extension}`;
             state.content = `

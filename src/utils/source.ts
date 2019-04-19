@@ -3,8 +3,8 @@ import { IRequest, Middleware } from '..';
 import { scheduleJob, Job, RecurrenceRule, RecurrenceSpecDateRange, RecurrenceSpecObjLit } from 'node-schedule';
 
 
-type ScheduleRule = RecurrenceRule | RecurrenceSpecDateRange | RecurrenceSpecObjLit | Date | string;
-interface IRequestContext {
+export type ScheduleRule = RecurrenceRule | RecurrenceSpecDateRange | RecurrenceSpecObjLit | Date | string;
+export interface IRequestContext {
     req: IRequest;
     url: string;
 }
