@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.1.9
++ Response#`$`, equivalent to `Cheerio.load(ctx.response.body)`.
+
 ## 0.1.8
 + Response#`extension()`;
 * new interface of request object.

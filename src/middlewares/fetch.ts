@@ -1,3 +1,4 @@
+import * as cheerio from 'cheerio';
 import * as xselector from 'xselector';
 import * as mime from 'mime';
 import nodeFetch, { Request } from 'node-fetch';
@@ -28,6 +29,21 @@ class Response {
      */
     body: string | Record<string, any> | undefined
 
+    private _$: CheerioStatic | undefined
+
+    /**
+     * If `Content-Type` is `html`, it is a `CheerioStatic`;\
+     * else it will be throw an TypeError.
+     */
+    get $() {
+        if (this._$) {
+            return this._$;
+        }
+        if (typeof this.body !== 'string' || !this.is('html')) {
+            throw new TypeError('Response#body should be html.');
+        }
+        return this._$ = cheerio.load(this.body);
+    }
 
     constructor(private res: FetchResponse) { }
 

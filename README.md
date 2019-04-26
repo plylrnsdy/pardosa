@@ -13,7 +13,9 @@ A spider framework has a [Koa][koa] like APIs, written by Typescript.
   - `guard`: Print the request and it's processing time.
   - `fetch`: Use [node-fetch][node-fetch] request page.
     - `ctx.res`: [node-fetch][node-fetch]'s Response.
-    - `ctx.response`: Pardosa's Response, exposes 3 interfaces of [xSelector][xselector]: `css()`, `xpath()`, `re()`.
+    - `ctx.response`: Pardosa's Response
+      - exposes 3 interfaces of [xSelector][xselector]: `.css()`, `.xpath()`, `.re()`;
+      - `.$`: Equivalent to `Cheerio.load(ctx.response.body)`.
   - `Router`: [Koa Router][koa-router] like APIs.
   - `schema`: Use XPath extract data to `ctx.state`.
   - `storage`
@@ -48,7 +50,7 @@ More [examples](https://github.com/plylrnsdy/pardosa/tree/master/src/examples).
 
 If you make a spider using Pardosa with **Typescript**, install with these declarations dependencies:
 
-    npm i -D @types/node-fetch @types/node-schedule
+    npm i -D @types/node-schedule @types/node-fetch @types/cheerio
 
 
 ## Contribution
