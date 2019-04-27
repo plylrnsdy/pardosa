@@ -70,6 +70,8 @@ const storage = {
             if (files == null || files.length === 0) return false;
 
             for (const { file, content } of files) {
+                if (!file || !content) continue;
+
                 mkdirSync(path.dirname(file), options);
                 fs.writeFileSync(file, content);
                 console.info('[STORAGE]', file);
