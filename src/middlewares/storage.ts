@@ -11,14 +11,14 @@ declare module storage {
         /**
          * The root directory of files. Default is `process.cwd()`.
          */
-        root?: string
+        root?: string;
     }
     export interface IFileContext {
         state: {
             /**
              * Storage Response#`body` to `file`.
              */
-            file?: string
+            file?: string;
             /**
              * Storage `files[].content` to `files[].file`.
              */
@@ -26,11 +26,11 @@ declare module storage {
                 /**
                  * File's relative path based on root.
                  */
-                file: string,
+                file: string;
                 /**
-                 * File's content, a string or a JSON Object.
+                 * File's content.
                  */
-                content: string | Record<string, any>
+                content: string;
             }>
         }
     }
