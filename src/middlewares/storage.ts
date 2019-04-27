@@ -33,10 +33,13 @@ declare module storage {
     }
 }
 
+const FILE_DEFAULT_OPTIONS = { root: process.cwd() };
 
 const storage = {
 
     file(options: storage.IFileOptions = {}): Middleware<{}, ISourceContext & IFetchContext & storage.IFileContext> {
+
+        options = Object.assign({}, FILE_DEFAULT_OPTIONS, options);
 
         return async function (ctx, next) {
             // after `fetch` before `router`
@@ -54,7 +57,7 @@ const storage = {
             if (file == null || content != null || res == null || res.bodyUsed) return false;
 
             mkdirSync(path.dirname(file), options);
-            res.body.pipe(fs.createWriteStream(path.join(options.root || process.cwd(), file)));
+            res.body.pipe(fs.createWriteStream(path.join(options.root!, file)));
             console.info('[STORAGE]', file);
 
             return true;

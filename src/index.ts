@@ -65,7 +65,7 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext>
         super();
         if (!(this instanceof Pardosa)) return new Pardosa();
 
-        this._options = Object.assign(options, DEFAULT_OPTIONS);
+        this._options = Object.assign({}, DEFAULT_OPTIONS, options);
 
         this.on('error', err => {
             console.log(err);
