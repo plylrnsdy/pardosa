@@ -15,11 +15,10 @@ const spider = new Pardosa({ exitOnIdle: true })
     .use(guard())
     .use(fetch())
     .use(async function ({ url, response, state }, next) {
-
-        Object.assign(state, {
+        state.files = [{
             file: `output/${url.replace(/https?:\/\//, '')}/README.md`,
             content: turndownService.turndown(response.xpath('//article').html()),
-        });
+        }];
 
         await next();
     })

@@ -25,17 +25,19 @@ const router = new Router()
         '/:module([^.]+).html', async function (ctx, next) {
             const { state, response, router: { params } } = ctx;
 
-            state.file = `output/nodejs/${params.module}.${response.extension}`;
-            state.content = `
-                <!DOCTYPE html>
-                <html lang="zh-cn">
-                <head>
-                    <title>${response.css('title').text()}</title>
-                </head>
-                <body>
-                    ${response.css('#apicontent').html()}
-                </body>
-                </html>`;
+            state.files = [{
+                file: `output/nodejs/${params.module}.html`,
+                content: `
+                    <!DOCTYPE html>
+                    <html lang="zh-cn">
+                    <head>
+                        <title>${response.css('title').text()}</title>
+                    </head>
+                    <body>
+                        ${response.css('#apicontent').html()}
+                    </body>
+                    </html>`,
+            }];
         });
 
 const spider = new Pardosa({ exitOnIdle: true })

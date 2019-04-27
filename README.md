@@ -21,7 +21,7 @@ A spider framework has a [Koa][koa] like APIs, written by Typescript.
   - `storage`
     - `file()`: Use after `fetch` and before `router`.
       - If `ctx.req.file` exist, save `ctx.response.body` to path `ctx.req.file`.
-      - If `ctx.state.file` exist, save `ctx.state.content` into `ctx.state.file`.
+      - If `ctx.state.files` exist, save every `ctx.state.files[].content` into `ctx.state.files[].file`.
   - `inspect`: Print field of `ctx` by JSON Path, like `state.file`.
 
 

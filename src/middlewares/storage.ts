@@ -14,21 +14,24 @@ declare module storage {
         root?: string
     }
     export interface IFileContext {
-        req: {
-            /**
-             * File's relative path based on root.
-             */
-            file?: string
-        }
         state: {
             /**
-             * File's relative path based on root.
+             * Storage Response#`body` to `file`.
              */
             file?: string
             /**
-             * File's content.
+             * Storage `files[].content` to `files[].file`.
              */
-            content?: any
+            files?: Array<{
+                /**
+                 * File's relative path based on root.
+                 */
+                file: string,
+                /**
+                 * File's content, a string or a JSON Object.
+                 */
+                content: string | Record<string, any>
+            }>
         }
     }
 }
@@ -53,8 +56,8 @@ const storage = {
             storageFileBySteam(ctx) || storageFileByString(ctx);
         }
 
-        function storageFileBySteam({ state: { file, content }, res }: IFetchContext & storage.IFileContext) {
-            if (file == null || content != null || res == null || res.bodyUsed) return false;
+        function storageFileBySteam({ state: { file }, res }: IFetchContext & storage.IFileContext) {
+            if (file == null || res == null || res.bodyUsed) return false;
 
             mkdirSync(path.dirname(file), options);
             res.body.pipe(fs.createWriteStream(path.join(options.root!, file)));
@@ -63,12 +66,14 @@ const storage = {
             return true;
         }
 
-        function storageFileByString({ state: { file, content } }: IFetchContext & storage.IFileContext) {
-            if (file == null || content == null) return false;
+        function storageFileByString({ state: { files } }: IFetchContext & storage.IFileContext) {
+            if (files == null || files.length === 0) return false;
 
-            mkdirSync(path.dirname(file), options);
-            fs.writeFileSync(file, content);
-            console.info('[STORAGE]', file);
+            for (const { file, content } of files) {
+                mkdirSync(path.dirname(file), options);
+                fs.writeFileSync(file, content);
+                console.info('[STORAGE]', file);
+            }
 
             return true;
         }
