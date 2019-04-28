@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.2.1
++ Add statistics and corresponse events for Pardosa.
+
 ## 0.2.0
 * `storage.file()` save `ctx.state.files[].content` to `ctx.state.files[].file`.
 

@@ -2,7 +2,7 @@
   "name": "pardosa",
   "description": "A spider framework has a Koa like APIs, written by Typescript.",
   "author": "plylrnsdy",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "spider",
     "crawler",

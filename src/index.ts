@@ -30,6 +30,24 @@ const DEFAULT_OPTIONS: Pardosa.IOptions = {
 
 class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext> extends EventEmitter {
 
+    private _stat = {
+        start: 0,
+        lastestStart: 0,
+        exit: 0,
+        runtime: 0,
+
+        request: 0,
+        completed: 0,
+        error: 0,
+    };
+
+    /**
+     * Statistics of Pardosa.
+     */
+    get stat() {
+        return Object.assign({}, this._stat);
+    }
+
     private _active = true;
     /**
      * Not stop by user.
@@ -67,8 +85,19 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext>
 
         this._options = Object.assign({}, DEFAULT_OPTIONS, options);
 
+        this.on('start', () => {
+            this._stat.lastestStart = Date.now();
+            this._stat.start || (this._stat.start = this._stat.lastestStart);
+        });
+        this.on('exit', () => {
+            this._stat.exit = Date.now();
+            this._stat.runtime += this._stat.exit - this._stat.lastestStart;
+        });
+        this.on('request', () => this._stat.request++);
+        this.on('completed', () => this._stat.completed++);
         this.on('error', err => {
             console.log(err);
+            this._stat.error++;
             this._options.exitOnError && this.stop();
         });
     }
@@ -90,9 +119,10 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext>
     async start() {
         if (this.running) return;
         this.running = true;
+        this.emit('start');
 
         const composed = compose(this._middlewares);
-        const exitOnIdle = this._options;
+        const { exitOnIdle } = this._options;
 
         let ctx;
         while (this.active) {
@@ -105,9 +135,11 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext>
                 continue;
             }
 
+            this.emit('request');
             ctx = Object.create(this.context);
             ctx.state = {};
             await composed(ctx);
+            this.emit('completed');
         }
         this.running = false;
     }
@@ -117,6 +149,7 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext>
      */
     stop() {
         this._active = false;
+        this.emit('exit');
     }
 
     toJSON() {
