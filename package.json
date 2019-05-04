@@ -2,7 +2,7 @@
   "name": "pardosa",
   "description": "A spider framework has a Koa like APIs, written by Typescript.",
   "author": "plylrnsdy",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "keywords": [
     "spider",
     "crawler",
@@ -29,10 +29,12 @@
     "@types/cheerio": "^0.22.11",
     "@types/lodash.get": "^4.4.6",
     "@types/mime": "^2.0.1",
+    "@types/mocha": "^5.2.6",
     "@types/node": "^10.14.4",
     "@types/node-fetch": "^2.3.2",
     "@types/node-schedule": "^1.2.3",
     "@types/turndown": "^5.0.0",
+    "mocha": "^6.1.4",
     "turndown": "^5.0.3",
     "turndown-plugin-gfm": "^1.0.2",
     "typescript": "^3.4.4"

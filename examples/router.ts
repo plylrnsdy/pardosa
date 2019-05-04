@@ -40,7 +40,7 @@ const router = new Router()
             }];
         });
 
-const spider = new Pardosa({ exitOnIdle: true })
+const spider = new Pardosa({ exitOnIdle: true, exitOnError: true })
     .use(guard())
     .use(fetch())
     .use(router.routes())

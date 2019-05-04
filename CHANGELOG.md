@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.2.3
+* Fix mkdir-sync generate fault dir with option { root }
+
 ## 0.2.2
 * Change `ctx.crawler` to `ctx.app`.
 * Enable encoding sniffing and convert encoding to utf8 when `Response#body`'s type is text.
