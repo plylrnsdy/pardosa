@@ -1,7 +1,7 @@
-import * as Pardosa from "..";
-import * as guard from '../middlewares/guard';
-import * as fetch from "../middlewares/fetch";
-import * as inspect from "../middlewares/inspect";
+import * as Pardosa from "../src";
+import * as guard from '../src/middlewares/guard';
+import * as fetch from "../src/middlewares/fetch";
+import * as inspect from "../src/middlewares/inspect";
 
 
 const spider = new Pardosa({ exitOnIdle: true })

@@ -12,8 +12,8 @@
   "scripts": {
     "compile": "npm run clean && tsc -p ./",
     "watch": "npm run clean && tsc -watch -p ./",
-    "clean": "shx rm -rf \".{/,/examples,/middlewares,/utils}/*.@(js|d.ts)\"",
-    "prepublish": "npm run compile"
+    "clean": "shx rm -rf ./out",
+    "publish-2-npm": "npm run compile && shx cp \"{LICENSE.txt,package.json,README.md}\" out/src && npm publish ./out/src"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",

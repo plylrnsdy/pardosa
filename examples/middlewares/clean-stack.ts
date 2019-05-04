@@ -1,6 +1,6 @@
-import * as Pardosa from "..";
-import * as Router from "../middlewares/router";
-import * as cleanStack from "../middlewares/clean-stack";
+import * as Pardosa from "../../src";
+import * as Router from "../../src/middlewares/router";
+import * as cleanStack from "../../src/middlewares/clean-stack";
 
 
 const spider = new Pardosa({ exitOnError: true })

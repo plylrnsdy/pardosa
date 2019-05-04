@@ -1,5 +1,5 @@
-import * as Pardosa from "..";
-import * as fetch from "../middlewares/fetch";
+import * as Pardosa from "../src";
+import * as fetch from "../src/middlewares/fetch";
 
 
 const spider = new Pardosa()

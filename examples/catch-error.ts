@@ -1,5 +1,5 @@
-import * as Pardosa from "..";
-import * as Router from "../middlewares/router";
+import * as Pardosa from "../src";
+import * as Router from "../src/middlewares/router";
 
 
 const spider = new Pardosa({ exitOnError: true })

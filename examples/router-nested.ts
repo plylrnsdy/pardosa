@@ -1,11 +1,11 @@
-import * as Pardosa from "..";
-import * as guard from '../middlewares/guard';
-import * as fetch from "../middlewares/fetch";
-import * as Router from "../middlewares/router";
-import * as storage from "../middlewares/storage";
-import { IFetchContext } from "../middlewares/fetch";
-import { IFileContext } from "../middlewares/storage";
-import { ISourceContext } from "../utils/source";
+import * as Pardosa from "../src";
+import * as guard from '../src/middlewares/guard';
+import * as fetch from "../src/middlewares/fetch";
+import * as Router from "../src/middlewares/router";
+import * as storage from "../src/middlewares/storage";
+import { IFetchContext } from "../src/middlewares/fetch";
+import { IFileContext } from "../src/middlewares/storage";
+import { ISourceContext } from "../src/utils/source";
 
 
 const url = 'http://nodejs.cn/api';
