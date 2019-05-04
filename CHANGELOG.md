@@ -2,6 +2,7 @@
 
 ## 0.2.2
 * Change `ctx.crawler` to `ctx.app`.
+* Enable encoding sniffing and convert encoding to utf8 when `Response#body`'s type is text.
 
 ## 0.2.1
 + Add statistics and corresponse events for Pardosa.

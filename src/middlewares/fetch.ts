@@ -51,7 +51,7 @@ class Response {
         if (this.is('json')) {
             this.body = await this.res.json();
         } else if (this.is('text')) {
-            this.body = await this.res.text();
+            this.body = await this.res.textConverted();
         }
     }
 
