@@ -4,6 +4,7 @@
 
 A spider framework has a [Koa][koa] like APIs, written by Typescript.
 
+**PS:** The repository still in *developing*, the APIs may be changed a lot before version 1.0. And welcome for your suggestions.
 
 ## Feature
 
@@ -11,16 +12,16 @@ A spider framework has a [Koa][koa] like APIs, written by Typescript.
 - Support schedule request, based on [node-schedule][node-schedule].
 - Build-in middlewares:
   - `guard`: Print the request and it's processing time.
-  - `fetch`: Use [node-fetch][node-fetch] request page.
+  - `fetch`: Use [node-fetch][node-fetch] to request page.
     - `ctx.res`: [node-fetch][node-fetch]'s Response.
     - `ctx.response`: Pardosa's Response
-      - exposes 3 interfaces of [xSelector][xselector]: `.css()`, `.xpath()`, `.re()`;
+      - Exposes 3 interfaces of [xSelector][xselector]: `.css()`, `.xpath()`, `.re()`;
       - `.$`: Equivalent to `Cheerio.load(ctx.response.body)`.
   - `Router`: [Koa Router][koa-router] like APIs.
   - `schema`: Use XPath extract data to `ctx.state`.
   - `storage`
     - `file()`: Use after `fetch` and before `router`.
-      - If `ctx.req.file` exist, save `ctx.response.body` to path `ctx.req.file`.
+      - If `ctx.state.file` exist, save `ctx.response.body` to path `ctx.req.file`.
       - If `ctx.state.files` exist, save every `ctx.state.files[].content` into `ctx.state.files[].file`.
   - `inspect`: Print field of `ctx` by JSON Path, like `state.file`.
 
