@@ -1,10 +1,13 @@
 # Change Log
 
+## 0.2.2
+* Change `ctx.crawler` to `ctx.app`.
+
 ## 0.2.1
 + Add statistics and corresponse events for Pardosa.
 
 ## 0.2.0
-* `storage.file()` save `ctx.state.files[].content` to `ctx.state.files[].file`.
+* `storage.file()` save `ctx.state.files[].content` to `ctx.state.files[].file` now, and don't save `ctx.state.file` to `ctx.state.content` any more.
 
 ## 0.1.9
 + Response#`$`, equivalent to `Cheerio.load(ctx.response.body)`.

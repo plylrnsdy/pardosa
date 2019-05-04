@@ -15,7 +15,22 @@ declare module Pardosa {
     export type Middleware<StateT, CustomT> = compose.Middleware<ParameterizedContext<StateT, CustomT>>;
 
     export interface BaseContext extends Record<string, any> {
+        /**
+         * The instance of Pardosa.
+         * @deprecated Use `ctx.app` instead.
+         */
+        // TODO: remove in v1.0
         crawler: Pardosa<any, any>;
+
+        /**
+         * The instance of Pardosa.
+         * @since 0.3.0
+         */
+        app: Pardosa<any, any>;
+
+        /**
+         * Requests queue. Enqueue request(s) for fetch more pages.
+         */
         source: Source;
     }
     export type ParameterizedContext<StateT, CustomT> = BaseContext & { state: StateT } & CustomT;
@@ -30,6 +45,10 @@ const DEFAULT_OPTIONS: Pardosa.IOptions = {
 
 class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext> extends EventEmitter {
 
+    /**
+     * Statistics data of Pardosa.
+     * @since 0.2.1
+     */
     private _stat = {
         start: 0,
         lastestStart: 0,
@@ -42,7 +61,8 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext>
     };
 
     /**
-     * Statistics of Pardosa.
+     * Get statistics data of Pardosa.
+     * @since 0.2.1
      */
     get stat() {
         return Object.assign({}, this._stat);
@@ -70,6 +90,7 @@ class Pardosa<S = Record<string, any>, C = Pardosa.BaseContext & ISourceContext>
      */
     context: Pardosa.BaseContext = {
         crawler: this,
+        app: this,
         source: this.source,
     };
 
@@ -164,7 +185,7 @@ function catchError<S, C>(): Pardosa.Middleware<S, C> {
         try {
             await next();
         } catch (error) {
-            ctx.crawler.emit('error', error);
+            ctx.app.emit('error', error);
         }
     }
 }
